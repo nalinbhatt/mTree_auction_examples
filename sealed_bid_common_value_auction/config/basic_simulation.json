@@ -1,0 +1,12 @@
+{"mtree_type": "mes_simulation_description",
+   "name":"Basic CVA Run",
+   "id": "1",
+   "environment": "CVAEnvironment",
+   "institution": "CVAInstitution",
+   "number_of_runs": 1,
+   "agents": [{"agent_name": "CVABaseReinforcementAgent", "number": 5}],
+   "properties": {
+       "agent_endowment": 10
+    }
+ }
+
