@@ -28,12 +28,12 @@ class CVASimpleAgent(Agent):
     def set_endowment(self, message: Message):
         self.endowment = message.get_payload()["endowment"]
 
-    @directive_decorator("item_for_bidding")
+    @directive_decorator("item_for_bidding", message_schema=["value"], message_callback=self.make_bid)
     def item_for_bidding(self, message: Message):
         self.item_for_bidding = message.get_payload()["value"]
         self.institution = message.get_sender()
         logging.log(EXPERIMENT, "Agent received item for bid %s", str(self.item_for_bidding))
-        self.make_bid()
+        
 
     def make_bid(self):
         new_message = Message()  # declare message

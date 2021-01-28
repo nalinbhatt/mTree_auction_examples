@@ -7,7 +7,7 @@ import logging
 import random
 EXPERIMENT = 25
 
-@directive_enabled_class
+@directive_enabled_class(expected_properties=["agent_endoment", "num_auctions"])
 class CVAEnvironment(Environment):
     def __init__(self):
         self.num_auctions = 10

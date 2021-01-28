@@ -37,7 +37,7 @@ class CVAInstitution(Institution):
         if self.debug:
             print("INSTITUTION: Start Experiment")
 
-    @directive_decorator("start_auction")
+    @directive_decorator("start_auction", message_schema=["agents"], message_callback=self.send_agents_start)
     def start_auction(self, message:Message):
         if self.auctions > 0:
             self.auctions -= 1
@@ -47,20 +47,18 @@ class CVAInstitution(Institution):
             self.bids_outstanding = len(self.agents)
             self.item_for_auction = random.randint(self.min_item_value, self.max_item_value)
             self.error_for_auction = self.error_permissible[random.randint(0, len(self.error_permissible)-1)]
-            for agent in self.agents:
-                agent_value = random.randint(self.item_for_auction - self.error_for_auction, self.item_for_auction + self.error_for_auction)
+            return True
+    
+            
+    def send_agents_start(self):
+        for agent in self.agents:
+            agent_value = random.randint(self.item_for_auction - self.error_for_auction, self.item_for_auction + self.error_for_auction)
 
-                new_message = Message()  # declare message
-                new_message.set_sender(self)  # set the sender of message to this actor
-                new_message.set_directive("item_for_bidding")
-                new_message.set_payload({"value": agent_value, "error": self.error_for_auction})
-                self.send(agent[0], new_message)  # receiver_of_message, message
-
-    @directive_decorator("accept_bid")
-    def accept_bid(self, message:Message):
-        # send instructions and prompt lender for rate_of_return_offer
-        if self.debug:
-            print("INSTITUTION: Start Experiment")
+            new_message = Message()  # declare message
+            new_message.set_sender(self)  # set the sender of message to this actor
+            new_message.set_directive("item_for_bidding")
+            new_message.set_payload({"value": agent_value, "error": self.error_for_auction})
+            self.send(agent[0], new_message)  # receiver_of_message, message
 
     def complete_auction(self):
         bids = sorted(self.bids, key=lambda elem: elem[0] ,reverse=True)
@@ -87,7 +85,7 @@ class CVAInstitution(Institution):
         new_message.set_payload({"agents": self.agents})
         self.send(self.myAddress, new_message)  # receiver_of_message, message
 
-    @directive_decorator("bid_for_item")
+    @directive_decorator("bid_for_item", message_schema=["bid"])
     def accept_bid(self, message: Message):
         bidder = message.get_sender()
         bid = message.get_payload()["bid"]
