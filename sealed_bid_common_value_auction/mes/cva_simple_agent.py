@@ -21,6 +21,7 @@ class CVASimpleAgent(Agent):
     @directive_decorator("auction_result")
     def auction_result(self, message: Message):
         #status = message.get_payload()["status"]
+        self.log_experiment_data("Agent received item for bid " + str(message.get_payload()))
         logging.log(EXPERIMENT, "Agent received item for bid %s", message.get_payload())
 
 
@@ -28,16 +29,18 @@ class CVASimpleAgent(Agent):
     def set_endowment(self, message: Message):
         self.endowment = message.get_payload()["endowment"]
 
-    @directive_decorator("item_for_bidding", message_schema=["value"], message_callback=self.make_bid)
+    @directive_decorator("item_for_bidding", message_schema=["value"], message_callback="make_bid")
     def item_for_bidding(self, message: Message):
         self.item_for_bidding = message.get_payload()["value"]
         self.institution = message.get_sender()
         logging.log(EXPERIMENT, "Agent received item for bid %s", str(self.item_for_bidding))
+        self.log_experiment_data("Agent received item for bid " + str(self.item_for_bidding))
+        self.make_bid()
         
 
     def make_bid(self):
         new_message = Message()  # declare message
-        new_message.set_sender(self)  # set the sender of message to this actor
+        new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("bid_for_item")
         new_message.set_payload({"bid": self.item_for_bidding})
-        self.send(self.institution.myAddress, new_message)  # receiver_of_message, message
+        self.send(self.institution, new_message)  # receiver_of_message, message
