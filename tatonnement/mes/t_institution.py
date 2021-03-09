@@ -36,7 +36,7 @@ class TInstitution(Institution):
 
     @directive_decorator("start_auction", message_schema=["agents"], message_callback="send_agents_start")
     def start_auction(self, message:Message):
-        print("STARTING AN AUCTION")
+        self.log_message("Institution starting the auction!")
         self.iterations = 10
         self.price_history = []
         self.price_low = 25

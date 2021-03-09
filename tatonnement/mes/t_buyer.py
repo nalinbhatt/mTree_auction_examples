@@ -20,6 +20,7 @@ class TBuyer(Agent):
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("buyer_checkin")
+        self.log_message("Buyer checking in!")
         self.send(message.get_sender(), new_message)
 
     @directive_decorator("init_agent")

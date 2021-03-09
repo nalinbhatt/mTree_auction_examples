@@ -8,7 +8,8 @@ import random
 
 @directive_enabled_class#(expected_properties=["agent_endoment", "num_auctions"])
 class TEnvironment(Environment):
-    def __init__(self):
+    @directive_decorator("outlog")
+    def outlog(self, message:Message):
         pass
 
 
@@ -31,10 +32,12 @@ class TEnvironment(Environment):
         
     
     def check_auction_start(self):
+        self.log_message("Another agent checked in! - " + str(self.buyer_checkin) + " - " + str(self.seller_checkin))
         if self.buyer_checkin == 0 and self.seller_checkin == 0:
             self.start_auction()
 
     def start_auction(self):
+        self.log_message("Auction Starts!")
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("start_auction")
@@ -45,7 +48,7 @@ class TEnvironment(Environment):
         self.buyer_checkin = 0
         self.buyers_addresses = []
         for agent in self.agents:
-            if agent[1].__qualname__ == "TBuyer":
+            if agent[1] == "t_buyer.TBuyer":
                 self.buyer_checkin += 1
                 self.buyers_addresses.append(agent[0])
                 new_message = Message()  # declare message
@@ -59,7 +62,7 @@ class TEnvironment(Environment):
         self.seller_checkin = 0
         self.sellers_addresses = []
         for agent in self.agents:
-            if agent[1].__qualname__ == "TSeller":
+            if agent[1] == "t_seller.TSeller":
                 self.seller_checkin += 1
                 self.sellers_addresses.append(agent[0])
                 new_message = Message()  # declare message
