@@ -36,7 +36,7 @@ class TInstitution(Institution):
 
     @directive_decorator("start_auction", message_schema=["agents"], message_callback="send_agents_start")
     def start_auction(self, message:Message):
-        self.log_message("Institution starting the auction!")
+        self.log_message("Institution starting the auction")
         self.iterations = 10
         self.price_history = []
         self.price_low = 25
@@ -56,13 +56,13 @@ class TInstitution(Institution):
             print("!*" * 25)
             print("!*" * 25)
             print("!*" * 25)
-            print("NEXT AUCTION STEP")
+            self.log_message("NEXT AUCTION STEP")
             self.iterations -= 1
             self.price_t = (self.price_buy + self.price_sell)/2
             self.buy_responses = []
             self.sell_responses = []
             print("INSTITUTION: Starting Auction")
-            print("PRICE SET TO: ", self.price_t)
+            self.log_message("PRICE SET TO: " +  str(self.price_t))
             for buyer in self.buyers:
                 new_message = Message()  # declare message
                 new_message.set_sender(self.myAddress)  # set the sender of message to this actor
@@ -103,11 +103,12 @@ class TInstitution(Institution):
     def check_step_end(self):
         logging.log(EXPERIMENT, "Buyers in %s", str(len(self.buy_responses)))
         logging.log(EXPERIMENT, "Sellers in %s", str(len(self.sell_responses)))
-        print("Buyers in ", str(len(self.buy_responses)), " -- ", len(self.buyers))
+        self.log_message("Buyers in " + str(len(self.buy_responses)) + " -- " + str(len(self.buyers)))
         print("Sellers in ", str(len(self.sell_responses)), " -- ", len(self.sellers))
         if len(self.buyers) == len(self.buy_responses) and len(self.sellers) == len(self.sell_responses):
             print("ALL PRICES IN")
             logging.log(EXPERIMENT, "ALL PRICES IN")
+            self.log_message("ALL PRICES ARE NOW IN AND THE AUCTION CLOSES")
             buy_totals = [val[0] for val in self.buy_responses]
             sell_totals = [val[0] for val in self.sell_responses]
             x_t = sum(buy_totals)

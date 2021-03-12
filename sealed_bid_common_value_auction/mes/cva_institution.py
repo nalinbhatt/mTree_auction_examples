@@ -101,6 +101,6 @@ class CVAInstitution(Institution):
         self.bids.append((bid, bidder))
         self.bids_outstanding -= 1
         if self.bids_outstanding == 0:
-            self.log_experiment_data("AUCTION COMPLETE")
+            self.log_data("AUCTION COMPLETE")
             self.complete_auction()
 

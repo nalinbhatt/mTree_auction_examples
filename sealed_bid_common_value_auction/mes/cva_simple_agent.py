@@ -21,7 +21,7 @@ class CVASimpleAgent(Agent):
     @directive_decorator("auction_result")
     def auction_result(self, message: Message):
         #status = message.get_payload()["status"]
-        self.log_experiment_data("Agent received item for bid " + str(message.get_payload()))
+        self.log_data("Agent received item for bid " + str(message.get_payload()))
         logging.log(EXPERIMENT, "Agent received item for bid %s", message.get_payload())
 
 
@@ -34,7 +34,7 @@ class CVASimpleAgent(Agent):
         self.item_for_bidding = message.get_payload()["value"]
         self.institution = message.get_sender()
         logging.log(EXPERIMENT, "Agent received item for bid %s", str(self.item_for_bidding))
-        self.log_experiment_data("Agent received item for bid " + str(self.item_for_bidding))
+        self.log_data("Agent received item for bid " + str(self.item_for_bidding))
         self.make_bid()
         
 

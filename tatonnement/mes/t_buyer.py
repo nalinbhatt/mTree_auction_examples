@@ -39,7 +39,7 @@ class TBuyer(Agent):
         self.current_buy_price = message.get_payload()["buy_price"]
         self.institution = message.get_sender()
         logging.log(EXPERIMENT, "Agent received item for bid %s", str(self.current_buy_price))
-        self.log_experiment_data("Agent received item for bid " + str(self.current_buy_price))
+        self.log_data("Agent received item for bid " + str(self.current_buy_price))
         self.determine_buy()
         
 

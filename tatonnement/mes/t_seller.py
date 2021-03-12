@@ -38,7 +38,7 @@ class TSeller(Agent):
         self.current_sell_price = message.get_payload()["sell_price"]
         self.institution = message.get_sender()
         logging.log(EXPERIMENT, "Agent received item for bid %s", str(self.item_for_bidding))
-        self.log_experiment_data("Agent received item for bid " + str(self.item_for_bidding))
+        self.log_data("Agent received item for bid " + str(self.item_for_bidding))
         self.determine_sale()
         
 
