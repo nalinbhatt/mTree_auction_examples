@@ -5,8 +5,6 @@ import math
 import random
 import logging
 
-EXPERIMENT = 25
-
 
 @directive_enabled_class
 class TInstitution(Institution):
