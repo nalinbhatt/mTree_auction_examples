@@ -16,6 +16,7 @@ class TSeller(Agent):
 
     @directive_decorator("set_value")
     def set_value(self, message: Message):
+        '''This directive handles the initial setting of values for the agent.'''
         self.value = message.get_payload()["value"]
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
