@@ -4,8 +4,6 @@ from mTree.microeconomic_system.agent import Agent
 import logging
 import random
 
-EXPERIMENT = 25
-
 
 @directive_enabled_class
 class TSeller(Agent):
@@ -32,13 +30,13 @@ class TSeller(Agent):
     @directive_decorator("sell_result")
     def sell_result(self, message: Message):
         sell_price = message.get_payload()["price"]
-        logging.log(EXPERIMENT, "Agent sold item at %s", str(sell_price))
+        self.log_message("Agent sold item at " + str(sell_price))
 
     @directive_decorator("sell_price_message") #, message_schema=["value"], message_callback="make_bid")
     def sell_price_message(self, message: Message):
         self.current_sell_price = message.get_payload()["sell_price"]
         self.institution = message.get_sender()
-        logging.log(EXPERIMENT, "Agent received item for bid %s", str(self.item_for_bidding))
+        self.log_message("Agent received item for bid " + str(self.item_for_bidding))
         self.log_data("Agent received item for bid " + str(self.item_for_bidding))
         self.determine_sale()
         

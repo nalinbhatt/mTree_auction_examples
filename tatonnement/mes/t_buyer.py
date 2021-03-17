@@ -4,8 +4,6 @@ from mTree.microeconomic_system.agent import Agent
 import logging
 import random
 
-EXPERIMENT = 25
-
 
 @directive_enabled_class
 class TBuyer(Agent):
@@ -30,7 +28,7 @@ class TBuyer(Agent):
     @directive_decorator("buy_result")
     def buy_result(self, message: Message):
         buy_price = message.get_payload()["price"]
-        logging.log(EXPERIMENT, "Agent bought item at %s", str(buy_price))
+        self.log_message("Agent bought item at " + str(buy_price))
 
 
     
@@ -38,7 +36,7 @@ class TBuyer(Agent):
     def buy_price_message(self, message: Message):
         self.current_buy_price = message.get_payload()["buy_price"]
         self.institution = message.get_sender()
-        logging.log(EXPERIMENT, "Agent received item for bid %s", str(self.current_buy_price))
+        self.log_message("Agent received item for bid " + str(self.current_buy_price))
         self.log_data("Agent received item for bid " + str(self.current_buy_price))
         self.determine_buy()
         
@@ -47,7 +45,7 @@ class TBuyer(Agent):
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("buy_price_response")
-        logging.log(EXPERIMENT, "Agent determining buy: %s -- %s", self.value, str(self.current_buy_price))
+        self.log_message("Agent determining buy: " + str(self.value) + " -- " + str(self.current_buy_price))
         
         if self.current_buy_price <= self.value:
             new_message.set_payload({"determination": "buy"})
