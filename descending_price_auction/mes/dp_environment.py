@@ -6,18 +6,15 @@ from mTree.microeconomic_system.property_decorators import *
 import logging
 import random
 
-class AgentEndowment:
-    def range():
-        x > 10, x< 20
 
-@directive_enabled_class#(expected_properties=[agent_endowment, "num_auctions"])
-class CVAEnvironment(Environment):
+@directive_enabled_class #("expected_properties")
+class DPEnvironment(Environment):
     def __init__(self):
         self.num_auctions = 10
 
+
     @directive_decorator("start_environment")
     def start_environment(self, message:Message):
-        self.log_message("Environment started")
         self.provide_endowment()
         self.start_auction()
 

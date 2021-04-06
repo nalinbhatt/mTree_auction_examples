@@ -99,13 +99,10 @@ class TInstitution(Institution):
 
 
     def check_step_end(self):
-        logging.log(EXPERIMENT, "Buyers in %s", str(len(self.buy_responses)))
-        logging.log(EXPERIMENT, "Sellers in %s", str(len(self.sell_responses)))
         self.log_message("Buyers in " + str(len(self.buy_responses)) + " -- " + str(len(self.buyers)))
         print("Sellers in ", str(len(self.sell_responses)), " -- ", len(self.sellers))
         if len(self.buyers) == len(self.buy_responses) and len(self.sellers) == len(self.sell_responses):
             print("ALL PRICES IN")
-            logging.log(EXPERIMENT, "ALL PRICES IN")
             self.log_message("ALL PRICES ARE NOW IN AND THE AUCTION CLOSES")
             buy_totals = [val[0] for val in self.buy_responses]
             sell_totals = [val[0] for val in self.sell_responses]
