@@ -67,7 +67,7 @@ class APInstitution(Institution):
         if self.auctions > 0:
             self.auctions -= 1
             print("INSTITUTION: Starting Auction")
-            self.agents = message.get_payload()["agents"]
+            #self.agents = message.get_payload()["agents"]
             self.bids = []
             self.starting_price = random.randint(self.min_item_value, self.max_item_value)
             self.alert_agents_of_price(self.starting_price)
